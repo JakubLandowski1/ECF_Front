@@ -44,10 +44,10 @@ export class ProjectDao {
             return false
         }
         project.statut = projectUpdate.statut;
-        project.title = projectUpdate.title
-        project.content = projectUpdate.content
+        project.title = projectUpdate.title;
+        project.content = projectUpdate.content;
         this.writeFile();
-        return true
+        return true;
     }
 
     updateStatut(id) {

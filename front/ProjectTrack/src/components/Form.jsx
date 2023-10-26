@@ -10,40 +10,43 @@ const Form = () => {
     const statut = useRef();
 
     
-
     const addProject = (e) => {
         e.preventDefault();
-
-
+      
         if (param.get('mode') === 'edit') {
-            const id = param.get('id')
-            axios.put(`http://localhost:5000/projects/${id}`, {
-                title: title.current.value,
-                content: content.current.value,
-                statut: statut.current.value
+          const id = param.get('id');
+          const updatedProject = {
+            id: id,
+            title: title.current.value,
+            content: content.current.value,
+            statut: statut.current.value
+          };
+      
+          axios.put(`http://localhost:5000/projects/${id}`, updatedProject)
+            .then(() => {
+            
+              navigate("/");
             })
-
-
-
-                .then(() => {
-                    navigate("/")
-                })
-                .catch(error => {
-                    console.error("Erreur lors de la mise à jour du projet :", error);
-                })
+            .catch(error => {
+              console.error("Erreur lors de la mise à jour du projet :", error);
+            });
         } else {
-            axios.post(`http://localhost:5000/projects`, { title: title.current.value, content: content.current.value, statut: statut.current.value })
-                .then(() => {
-
-                }
-                )
+          const newProject = {
+            title: title.current.value,
+            content: content.current.value,
+            statut: statut.current.value
+          };
+      
+          axios.post("http://localhost:5000/projects", newProject)
+            .then(() => {
+             
+              navigate("/");
+            })
+            .catch(error => {
+              console.error("Erreur lors de la création du projet :", error);
+            });
         }
-
-
-        navigate("/")
-    }
-
-
+      }
 
 
     return (
@@ -69,7 +72,7 @@ const Form = () => {
 
                             <option value="Non debuté" >Non Debuté </option>
                             <option value="En cours" > En cours</option>
-                            <option value="En Etat" >En attente</option>
+                            <option value="En attente" >En attente</option>
                             <option value="Terminé" >Terminé</option>
                         </select>
 
